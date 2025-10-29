@@ -1,7 +1,7 @@
 const {trips}=require('../models/tripmodel');
 const db_access = require('../db.js');
 
-const retrievalltrips=(req,res)=>{
+/*const retrievalltrips=(req,res)=>{
     const query = `SELECT * FROM trips`
 
     db.all(query, (err, rows) => {
@@ -11,7 +11,7 @@ const retrievalltrips=(req,res)=>{
         }
         res.status(200).json(rows);
     });
-}
+}*/
 
 const createTrip=(req,res)=>{
 const {destinationName,
@@ -40,9 +40,40 @@ db.run(query, function(err) {
 }
 
 
+const retrievalltrips= (req,res)=>{
+    const query=`SELECT * FROM TRIP`;
+    db.all(query, (err,rows)=> {
+        return res.status(200).json({
+            message:"trip success",
+            data : rows
+        }); 
+});
+};
+
+const retreiveTripById= (req,res) => {
+    const id= req.parms.id; 
+    const query= `SELECT * FROM TRIP WHERE ID = ${id}`;
+    db.get (query, (err, row)=>{
+        return res.status(200).json({
+            message:"trip success",
+            data : rows
+             });
+    });
+};
+
+const deleteTripById= (req,res) => {
+    const id= req.parms.id; 
+    const query= `DELETE FROM TRIP WHERE ID = ${id}`;
+    db.run (query,function (err){
+        return res.status(200).json({
+            message:"trip success",
+             });
+    });
+};
 
 
 module.exports={
     retrievalltrips,
-    createTrip
+    createTrip,
+    deleteTripById
 };
