@@ -26,8 +26,7 @@ if (!destinationName || !destination || !duration || !language || !description |
     return res.status(400).json({ error: 'All fields are required' });
 }
 
-query = `INSERT INTO trips (DESTINATION, DURATION, PRICE, LANGUAGE, DESCRIPTION, FLIGHTCOST, ACCOMMODATION, ACCOMMODATIONCOST, MEALCOST, TRANSPORTATIONCOST, ACTIVITIESCOST, CURRENCY)
-VALUES ('${destinationName}', ${duration}, 0, '${language}', '${description}', 0, '${accommodation}', 0, 0, 0, 0, '${currency}')`;
+query = "INSERT INTO trips (DESTINATION, DURATION, PRICE, LANGUAGE, DESCRIPTION, FLIGHTCOST, ACCOMMODATION, ACCOMMODATIONCOST, MEALCOST, TRANSPORTATIONCOST, ACTIVITIESCOST, CURRENCY) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
 db.run(query, function(err) {
     if (err) {
@@ -52,7 +51,7 @@ const retrievalltrips= (req,res)=>{
 
 const retreiveTripById= (req,res) => {
     const id= req.parms.id; 
-    const query= `SELECT * FROM TRIP WHERE ID = ${id}`;
+    const query= 'SELECT * FROM TRIP WHERE ID = ? ';
     db.get (query, (err, row)=>{
         return res.status(200).json({
             message:"trip success",
@@ -63,7 +62,7 @@ const retreiveTripById= (req,res) => {
 
 const deleteTripById= (req,res) => {
     const id= req.parms.id; 
-    const query= `DELETE FROM TRIP WHERE ID = ${id}`;
+    const query= 'DELETE FROM TRIP WHERE ID = ?';
     db.run (query,function (err){
         return res.status(200).json({
             message:"trip success",
