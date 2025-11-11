@@ -16,10 +16,7 @@ bcrypt.hash(password,10,(err,hashedpassword)=> {
         console.error(err);
         return res.status(500).send('error hashing password');
     }
-    const query= `
-        INSERT INTO USER (NAME,EMAIL,ROLE,PASSWORD)
-        VALUES ('${name}','${email}','${role}','${hashpassword}')
-        `;
+    const query= ' INSERT INTO USER (NAME,EMAIL,ROLE,PASSWORD)  VALUES (?,?,?,? ) '; //change 1
     db.run(query,(err)=> {
             if (err) {
                 console.log(err.message);
@@ -47,7 +44,7 @@ const login = (req,res) => {
     }
 }
 
-const query = `SELECT * FROM USER WHERE EMAIL='${email}'`;
+const query = 'SELECT * FROM USER WHERE EMAIL=(?)'; //change2s
 db.get(query, (err, row) => {
     if (err) {
         console.log(err);
